@@ -41,18 +41,31 @@ class _SubHomeScreenState extends State<SubHomeScreen> {
   void dispose() {
     super.dispose();
     _videoPlayerControllers[_currentVideoIndex].dispose();
-    // controller.dispose();
   }
 
   @override
   void initState() {
+    // WidgetsBinding.instance.addPostFrameCallback((_) async {
+    //   await _videoPlayerControllers[_currentVideoIndex].dispose();
+    // });
+
     for (int i = 0; i < 4; i++) {
       _videoPlayerControllers.add(VideoPlayerController.networkUrl(
-          Uri.parse(videoUrlList[i].toString())));
-      _videoPlayerControllers[i].initialize().then((_) {
-        // When the video is initialized, start playing it.
-        _videoPlayerControllers[i].play();
+          Uri.parse(videoUrlList[i].toString()),
+          videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true)));
+
+      initializeVideoPlayerFuture =_videoPlayerControllers[i].initialize().then((value){
+        setState(() {
+
+        });
       });
+
+      // _videoPlayerControllers[i].initialize().then((_) {
+      //   setState(() {});
+      //   When the video is initialized, start playing it.
+      // });
+      _videoPlayerControllers[i].setLooping(false);
+      _videoPlayerControllers[i].play();
     }
 
     // TODO: implement initState
@@ -74,7 +87,8 @@ class _SubHomeScreenState extends State<SubHomeScreen> {
               AppBar(
                 systemOverlayStyle: const SystemUiOverlayStyle(
                   statusBarColor: Color(0xffFE6A00),
-                  statusBarIconBrightness: Brightness.light, // For Android (dark icons)
+                  statusBarIconBrightness: Brightness.light,
+                  // For Android (dark icons)
                   statusBarBrightness: Brightness.light,
                 ),
                 backgroundColor: Colors.transparent,
@@ -105,28 +119,29 @@ class _SubHomeScreenState extends State<SubHomeScreen> {
                           children: [
                             Image.asset(
                               "asset/noti.png",
-                              scale: 3,
+                              scale: 4,
                             ),
                             Padding(
                               padding: const EdgeInsets.only(top: 1.0),
                               child: Image.asset(
                                 "asset/noti2.png",
-                                scale: 2,
+                                scale: 3,
                               ),
                             ),
                           ],
                         ),
                       ),
                       const Positioned(
-                        right: 5,
-                        top: 5,
+                        right: 7,
+                        top: 6,
                         child: CircleAvatar(
-                          radius: 12,
+                          radius: 10,
                           backgroundColor: Color(0xff231F1F),
                           child: Center(
                             child: Text(
                               "1",
-                              style: TextStyle(color: Colors.white, fontSize: 14),
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 12),
                             ),
                           ),
                         ),
@@ -140,7 +155,8 @@ class _SubHomeScreenState extends State<SubHomeScreen> {
                 thickness: 1,
               ),
               Container(
-                padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 15),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -148,42 +164,41 @@ class _SubHomeScreenState extends State<SubHomeScreen> {
                       width: screenWidth(context) * 0.6,
                       child: Row(
                         children: [
-                          Image.asset("asset/3star.png",scale: 5,),
+                          Image.asset(
+                            "asset/3star.png",
+                            scale: 5,
+                          ),
                           const Padding(
                             padding: EdgeInsets.only(left: 10.0),
-                            child: Text(
-                                "Your Loyalty points",
+                            child: Text("Your Loyalty points",
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: Colors.black,
                                   fontWeight: FontWeight.w600,
-                                )
-                            ),
+                                )),
                           )
                         ],
                       ),
                     ),
                     Container(
                       child: Row(
-
                         children: [
-                          Text(
-                              "2,324",
+                          Text("2,324",
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Colors.black,
                                 fontWeight: FontWeight.w600,
-                              )
-                          ),
+                              )),
                           Padding(
                             padding: const EdgeInsets.only(left: 8.0),
-                            child: Image.asset("asset/star.png",scale: 5,),
+                            child: Image.asset(
+                              "asset/star.png",
+                              scale: 5,
+                            ),
                           )
                         ],
                       ),
-
                     )
-
                   ],
                 ),
               )
@@ -211,10 +226,29 @@ class _SubHomeScreenState extends State<SubHomeScreen> {
                       fit: BoxFit.contain,
                       child: SizedBox(
                         width: screenWidth(context),
-                        child: AspectRatio(
-                            aspectRatio:
-                                _videoPlayerControllers[index].value.aspectRatio,
-                            child: VideoPlayer(_videoPlayerControllers[index])),
+                        child: FutureBuilder(
+                          future: initializeVideoPlayerFuture,
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.done) {
+                              // If the VideoPlayerController has finished initialization, use
+                              // the data it provides to limit the aspect ratio of the video.
+                              return                         AspectRatio(
+                                  aspectRatio: _videoPlayerControllers[index]
+                                      .value
+                                      .aspectRatio,
+                                  child: VideoPlayer(_videoPlayerControllers[index]));
+                            } else {
+                              // If the VideoPlayerController is still initializing, show a
+                              // loading spinner.
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                          },
+                        )
+
+
                       ),
                     );
                   },
@@ -306,38 +340,41 @@ class _SubHomeScreenState extends State<SubHomeScreen> {
                     ),
                   )),
               _currentVideoIndex == 1
-                  ?Positioned(
-                  top: screenHeight(context) * .51,
-                  left: screenWidth(context) * 0.2,
-                  child: Container(
-                    width: screenWidth(context) * 0.6,
-                    height: 50,
-                    decoration: BoxDecoration(
-                        color: Colors.transparent,
-                        border: Border.all(color: Colors.white,width: 1)
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Spacer(),
-                        Container(
-                          width: screenWidth(context) * 0.5,
-                          child: const Center(
-                              child: Text(
+                  ? Positioned(
+                      top: screenHeight(context) * .51,
+                      left: screenWidth(context) * 0.2,
+                      child: Container(
+                        width: screenWidth(context) * 0.6,
+                        height: 50,
+                        decoration: BoxDecoration(
+                            color: Colors.transparent,
+                            border: Border.all(color: Colors.white, width: 1)),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Spacer(),
+                            Container(
+                              width: screenWidth(context) * 0.5,
+                              child: const Center(
+                                  child: Text(
                                 "Forum",
-                                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600,color: Colors.white),
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white),
                               )),
+                            ),
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 10.0),
+                                child: Image.asset("asset/Arrow.png",
+                                    scale: 6, color: Colors.white),
+                              ),
+                            )
+                          ],
                         ),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 10.0),
-                            child: Image.asset("asset/Arrow.png",scale: 6,color: Colors.white),
-                          ),
-                        )
-                      ],
-                    ),
-                  ))
+                      ))
                   : const SizedBox(),
               Positioned(
                 top: screenHeight(context) * .58,
@@ -356,17 +393,25 @@ class _SubHomeScreenState extends State<SubHomeScreen> {
                         width: screenWidth(context) * 0.5,
                         child: Center(
                             child: Text(
-                              _currentVideoIndex == 0 ?"Oder Now"
-                                  : _currentVideoIndex == 1 ? "Collaborate Now"
-                                  : _currentVideoIndex == 2 ? "Buy Tickets": "Buy Work Pass",
-                              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-                            )),
+                          _currentVideoIndex == 0
+                              ? "Oder Now"
+                              : _currentVideoIndex == 1
+                                  ? "Collaborate Now"
+                                  : _currentVideoIndex == 2
+                                      ? "Buy Tickets"
+                                      : "Buy Work Pass",
+                          style: const TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.w600),
+                        )),
                       ),
                       Align(
                         alignment: Alignment.centerRight,
                         child: Padding(
                           padding: const EdgeInsets.only(right: 10.0),
-                          child: Image.asset("asset/Arrow.png",scale: 6,),
+                          child: Image.asset(
+                            "asset/Arrow.png",
+                            scale: 6,
+                          ),
                         ),
                       )
                     ],
