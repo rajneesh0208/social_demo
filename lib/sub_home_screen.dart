@@ -40,7 +40,11 @@ class _SubHomeScreenState extends State<SubHomeScreen> {
   @override
   void dispose() {
     super.dispose();
-    _videoPlayerControllers[_currentVideoIndex].dispose();
+    if (_videoPlayerControllers[_currentVideoIndex].value.isPlaying ||
+        _videoPlayerControllers[_currentVideoIndex].value.isBuffering
+    ||_videoPlayerControllers[_currentVideoIndex].value.isInitialized) {
+      _videoPlayerControllers[_currentVideoIndex].dispose();
+    }
   }
 
   @override
@@ -49,24 +53,22 @@ class _SubHomeScreenState extends State<SubHomeScreen> {
     //   await _videoPlayerControllers[_currentVideoIndex].dispose();
     // });
 
-    for (int i = 0; i < 4; i++) {
-      _videoPlayerControllers.add(VideoPlayerController.networkUrl(
-          Uri.parse(videoUrlList[i].toString()),
-          videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true)));
 
-      initializeVideoPlayerFuture =_videoPlayerControllers[i].initialize().then((value){
-        setState(() {
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      for (int i = 0; i < 4; i++) {
+        _videoPlayerControllers.add(VideoPlayerController.networkUrl(
+            Uri.parse(videoUrlList[i].toString()),
+            videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true)));
+        initializeVideoPlayerFuture =
+            _videoPlayerControllers[i].initialize().then((value) {
+              setState(() {});
+            });
+        _videoPlayerControllers[i].setLooping(false);
+        _videoPlayerControllers[i].play();
+      }
+    });
 
-        });
-      });
 
-      // _videoPlayerControllers[i].initialize().then((_) {
-      //   setState(() {});
-      //   When the video is initialized, start playing it.
-      // });
-      _videoPlayerControllers[i].setLooping(false);
-      _videoPlayerControllers[i].play();
-    }
 
     // TODO: implement initState
     super.initState();
@@ -225,31 +227,29 @@ class _SubHomeScreenState extends State<SubHomeScreen> {
                     return FittedBox(
                       fit: BoxFit.contain,
                       child: SizedBox(
-                        width: screenWidth(context),
-                        child: FutureBuilder(
-                          future: initializeVideoPlayerFuture,
-                          builder: (context, snapshot) {
-                            if (snapshot.connectionState ==
-                                ConnectionState.done) {
-                              // If the VideoPlayerController has finished initialization, use
-                              // the data it provides to limit the aspect ratio of the video.
-                              return                         AspectRatio(
-                                  aspectRatio: _videoPlayerControllers[index]
-                                      .value
-                                      .aspectRatio,
-                                  child: VideoPlayer(_videoPlayerControllers[index]));
-                            } else {
-                              // If the VideoPlayerController is still initializing, show a
-                              // loading spinner.
-                              return const Center(
-                                child: CircularProgressIndicator(),
-                              );
-                            }
-                          },
-                        )
-
-
-                      ),
+                          width: screenWidth(context),
+                          child: FutureBuilder(
+                            future: initializeVideoPlayerFuture,
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.done) {
+                                // If the VideoPlayerController has finished initialization, use
+                                // the data it provides to limit the aspect ratio of the video.
+                                return AspectRatio(
+                                    aspectRatio: _videoPlayerControllers[index]
+                                        .value
+                                        .aspectRatio,
+                                    child: VideoPlayer(
+                                        _videoPlayerControllers[index]));
+                              } else {
+                                // If the VideoPlayerController is still initializing, show a
+                                // loading spinner.
+                                return const Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              }
+                            },
+                          )),
                     );
                   },
                 ),
