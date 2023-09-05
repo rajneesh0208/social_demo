@@ -11,15 +11,17 @@ class CustomBottomNav extends StatelessWidget {
       decoration: const BoxDecoration(
         color: Colors.white,
       ),
-      margin: const EdgeInsets.only(bottom: 20),
+
       width: screenWidth(context),
-      height: 100,
+      height: screenHeight(context) * 0.10,
       child: Stack(
         clipBehavior: Clip.none,
         children: [
+
           Positioned(
-            left: screenWidth(context) * 0.38,
-            top: -60,
+            left: screenWidth(context) * 0.40,
+            right: screenWidth(context) * 0.4,
+            top: -screenHeight(context) * 0.045,
             child: Center(
               child: Container(
                 padding: const EdgeInsets.only(top: 10),
@@ -31,30 +33,27 @@ class CustomBottomNav extends StatelessWidget {
                             builder: (context) => const CommunityScreen()));
                   },
                   child: CircleAvatar(
-                    radius: 50,
+                    radius: screenWidth(context) * 0.10,
                     backgroundColor: const Color(0xffFE6A00),
                     child: Padding(
-                      padding: const EdgeInsets.all(10.0),
+                      padding: EdgeInsets.only(top :screenWidth(context) * 0.02),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 5.0),
-                            child: Row(
-                              mainAxisAlignment:
-                                  MainAxisAlignment.spaceAround,
-                              children: [
-                                Image.asset(
-                                  "asset/L1.png",
-                                  scale: 8,
-                                ),
-                                Image.asset(
-                                  "asset/R1.png",
-                                  scale: 8,
-                                ),
-                              ],
-                            ),
+                          Row(
+                            mainAxisAlignment:
+                                MainAxisAlignment.spaceAround,
+                            children: [
+                              Image.asset(
+                                "asset/L1.png",
+                                scale: 8,
+                              ),
+                              Image.asset(
+                                "asset/R1.png",
+                                scale: 8,
+                              ),
+                            ],
                           ),
                           const Padding(
                             padding: EdgeInsets.only(top: 10.0),
@@ -73,59 +72,50 @@ class CustomBottomNav extends StatelessWidget {
               ),
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 15),
-                width: screenWidth(context) * 0.4,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 5.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Container(
-                      padding: const EdgeInsets.only(top: 10),
-                      width: screenWidth(context) * 0.10,
+                      padding: const EdgeInsets.only(top: 12),
+                      width: screenWidth(context) * 0.20,
                       child: const Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          SizedBox(
-                              child: Text("560\n005",style: TextStyle(
+                          Text("560\n005",style: TextStyle(
+                            color: Color(0xffC35200),
+                            fontSize: 13,
+                            fontWeight: FontWeight.w700,
+                          ),),
+                          Text(
+                            "Home",
+                            style: TextStyle(
                                 color: Color(0xffC35200),
-                                fontSize: 12,
-                                fontWeight: FontWeight.w700,
-                              ),)
-                              ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 0),
-                            child: Text(
-                              "Home",
-                              style: TextStyle(
-                                  color: Color(0xffC35200),
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 13),
-                            ),
+                                fontWeight: FontWeight.w700,),
                           )
                         ],
                       ),
                     ),
                     Container(
+                      width: screenWidth(context) * 0.20,
                       padding: const EdgeInsets.only(top: 10),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          SizedBox(
-                              width: screenWidth(context) * 0.08,
-                              child: Image.asset("asset/food.png")),
+                          Image.asset("asset/food.png",scale: 5,),
                           const Padding(
                             padding: EdgeInsets.only(top: 0),
-                            child: const Text(
+                            child: Text(
                               "Eat & Drink",
                               style: TextStyle(
                                   color: Color(0xffFE6A00),
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 13),
+                                  fontWeight: FontWeight.w700,),
                             ),
                           )
                         ],
@@ -133,33 +123,25 @@ class CustomBottomNav extends StatelessWidget {
                     ),
                   ],
                 ),
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 15),
-                width: screenWidth(context) * 0.4,
-                child: Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
                       padding: const EdgeInsets.only(top: 10),
+                      width: screenWidth(context) * 0.18,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          SizedBox(
-                            width: screenWidth(context) * 0.08,
-                            child: SizedBox(
-                                width: screenWidth(context) * 0.08,
-                                child: Image.asset("asset/rock.png")),
-                          ),
+                          Image.asset("asset/rock.png",scale: 5,),
                           const Padding(
                             padding: EdgeInsets.only(top: 0),
-                            child: const Text(
+                            child: Text(
                               "Events",
                               style: TextStyle(
                                   color: Color(0xffFE6A00),
                                   fontWeight: FontWeight.w700,
-                                  fontSize: 13),
+                              ),
                             ),
                           )
                         ],
@@ -169,30 +151,29 @@ class CustomBottomNav extends StatelessWidget {
                       padding: const EdgeInsets.only(
                         top: 10,
                       ),
+                      width: screenWidth(context) * 0.22,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          SizedBox(
-                              width: screenWidth(context) * 0.08,
-                              child: Image.asset("asset/social_work.png")),
+                          Image.asset("asset/social_work.png",scale: 5,),
                           const Padding(
                             padding: EdgeInsets.only(top: 0),
-                            child: const Text(
+                            child: Text(
                               "Social Works",
                               style: TextStyle(
                                   color: Color(0xffFE6A00),
                                   fontWeight: FontWeight.w700,
-                                  fontSize: 13),
+                              ),
                             ),
                           )
                         ],
                       ),
                     )
                   ],
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           ),
         ],
       ),

@@ -34,17 +34,15 @@ class _SubHomeScreenState extends State<SubHomeScreen> {
   // late VideoPlayerController controller;
   Future<void>? initializeVideoPlayerFuture;
 
-  List<VideoPlayerController> _videoPlayerControllers = [];
+  final List<VideoPlayerController> _videoPlayerControllers = [];
   int _currentVideoIndex = 0;
 
   @override
   void dispose() {
-    super.dispose();
-    if (_videoPlayerControllers[_currentVideoIndex].value.isPlaying ||
-        _videoPlayerControllers[_currentVideoIndex].value.isBuffering
-    ||_videoPlayerControllers[_currentVideoIndex].value.isInitialized) {
+    setState(() {
       _videoPlayerControllers[_currentVideoIndex].dispose();
-    }
+    });
+    super.dispose();
   }
 
   @override
@@ -53,22 +51,19 @@ class _SubHomeScreenState extends State<SubHomeScreen> {
     //   await _videoPlayerControllers[_currentVideoIndex].dispose();
     // });
 
-
-    WidgetsBinding.instance.addPostFrameCallback((_){
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       for (int i = 0; i < 4; i++) {
         _videoPlayerControllers.add(VideoPlayerController.networkUrl(
             Uri.parse(videoUrlList[i].toString()),
             videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true)));
         initializeVideoPlayerFuture =
             _videoPlayerControllers[i].initialize().then((value) {
-              setState(() {});
-            });
+          setState(() {});
+        });
         _videoPlayerControllers[i].setLooping(false);
         _videoPlayerControllers[i].play();
       }
     });
-
-
 
     // TODO: implement initState
     super.initState();
@@ -83,17 +78,17 @@ class _SubHomeScreenState extends State<SubHomeScreen> {
         drawer: const DrawerBuilder(),
         bottomNavigationBar: const CustomBottomNav(),
         appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(120),
+          preferredSize: Size.fromHeight(screenHeight(context) * 0.16),
           child: Column(
             children: [
               AppBar(
                 systemOverlayStyle: const SystemUiOverlayStyle(
                   statusBarColor: Color(0xffFE6A00),
                   statusBarIconBrightness: Brightness.light,
-                  // For Android (dark icons)
                   statusBarBrightness: Brightness.light,
                 ),
-                backgroundColor: Colors.transparent,
+                elevation: 0,
+                backgroundColor: Colors.white,
                 leading: InkWell(
                   onTap: _openDrawer,
                   child: const Padding(
@@ -162,7 +157,7 @@ class _SubHomeScreenState extends State<SubHomeScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
+                    SizedBox(
                       width: screenWidth(context) * 0.6,
                       child: Row(
                         children: [
@@ -207,52 +202,51 @@ class _SubHomeScreenState extends State<SubHomeScreen> {
             ],
           ),
         ),
-        body: SafeArea(
+        body: SizedBox(
+          width: screenWidth(context),
+          height: screenHeight(context),
           child: Stack(
             clipBehavior: Clip.none,
             children: [
-              SizedBox(
-                height: screenHeight(context) * 0.8,
-                child: PageView.builder(
-                  physics: const BouncingScrollPhysics(),
-                  itemCount: _videoPlayerControllers.length,
-                  scrollDirection: Axis.vertical,
-                  onPageChanged: (int index) {
-                    setState(() {
-                      _currentVideoIndex = index;
-                      _videoPlayerControllers[_currentVideoIndex].play();
-                    });
-                  },
-                  itemBuilder: (BuildContext context, int index) {
-                    return FittedBox(
-                      fit: BoxFit.contain,
-                      child: SizedBox(
-                          width: screenWidth(context),
-                          child: FutureBuilder(
-                            future: initializeVideoPlayerFuture,
-                            builder: (context, snapshot) {
-                              if (snapshot.connectionState ==
-                                  ConnectionState.done) {
-                                // If the VideoPlayerController has finished initialization, use
-                                // the data it provides to limit the aspect ratio of the video.
-                                return AspectRatio(
-                                    aspectRatio: _videoPlayerControllers[index]
-                                        .value
-                                        .aspectRatio,
-                                    child: VideoPlayer(
-                                        _videoPlayerControllers[index]));
-                              } else {
-                                // If the VideoPlayerController is still initializing, show a
-                                // loading spinner.
-                                return const Center(
-                                  child: CircularProgressIndicator(),
-                                );
-                              }
-                            },
-                          )),
-                    );
-                  },
-                ),
+              PageView.builder(
+                physics: const BouncingScrollPhysics(),
+                itemCount: _videoPlayerControllers.length,
+                scrollDirection: Axis.vertical,
+                onPageChanged: (int index) {
+                  setState(() {
+                    _currentVideoIndex = index;
+                    _videoPlayerControllers[_currentVideoIndex].play();
+                  });
+                },
+                itemBuilder: (BuildContext context, int index) {
+                  return FittedBox(
+                    fit: BoxFit.contain,
+                    child: SizedBox(
+                        width: screenWidth(context),
+                        child: FutureBuilder(
+                          future: initializeVideoPlayerFuture,
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.done) {
+                              // If the VideoPlayerController has finished initialization, use
+                              // the data it provides to limit the aspect ratio of the video.
+                              return AspectRatio(
+                                  aspectRatio: _videoPlayerControllers[index]
+                                      .value
+                                      .aspectRatio,
+                                  child: VideoPlayer(
+                                      _videoPlayerControllers[index]));
+                            } else {
+                              // If the VideoPlayerController is still initializing, show a
+                              // loading spinner.
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                          },
+                        )),
+                  );
+                },
               ),
               Positioned(
                   top: 20,
@@ -353,7 +347,7 @@ class _SubHomeScreenState extends State<SubHomeScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             const Spacer(),
-                            Container(
+                            SizedBox(
                               width: screenWidth(context) * 0.5,
                               child: const Center(
                                   child: Text(
@@ -389,7 +383,7 @@ class _SubHomeScreenState extends State<SubHomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Spacer(),
-                      Container(
+                      SizedBox(
                         width: screenWidth(context) * 0.5,
                         child: Center(
                             child: Text(

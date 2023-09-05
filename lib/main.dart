@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.purple,
         splashColor: Colors.transparent,
         highlightColor: Colors.transparent,
-        useMaterial3: true,
+        // useMaterial3: true,
 
 
       ),
