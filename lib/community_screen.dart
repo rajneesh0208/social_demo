@@ -39,13 +39,13 @@ class _CommunityScreenState extends State<CommunityScreen> {
       drawer: const DrawerBuilder(),
       bottomNavigationBar: const CustomBottomNav(),
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(70),
+        preferredSize: Size.fromHeight(screenHeight(context) *0.08),
         child: Container(
           decoration: const BoxDecoration(
             color: Colors.white,
             // border: Border(bottom: BorderSide(color: Colors.black12))
           ),
-          padding: const EdgeInsets.only(top: 10),
+          padding: const EdgeInsets.only(top: 5),
           child: AppBar(
             systemOverlayStyle: const SystemUiOverlayStyle(
               statusBarColor: Color(0xffFE6A00),
@@ -60,7 +60,6 @@ class _CommunityScreenState extends State<CommunityScreen> {
               child: const Padding(
                 padding: EdgeInsets.all(5.0),
                 child: CircleAvatar(
-                  radius: 10,
                   backgroundImage: AssetImage("asset/avatar.png"),
                 ),
               ),
@@ -126,14 +125,15 @@ class _CommunityScreenState extends State<CommunityScreen> {
               Container(
                 height: screenHeight(context) * 0.4,
                 // width: screenWidth(context),
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(40),
-                      bottomRight: Radius.circular(40),
+                      bottomLeft: Radius.circular(screenHeight(context) * 0.04),
+                      bottomRight: Radius.circular(screenHeight(context) * 0.04),
                     ),
-                    image: DecorationImage(
+                    image: const DecorationImage(
                         image: AssetImage("asset/community_Image.png"),
-                        scale: 2)),
+                        scale: 2,
+                    fit: BoxFit.cover)),
                 child: Stack(
                   children: [
                     Container(
@@ -145,16 +145,16 @@ class _CommunityScreenState extends State<CommunityScreen> {
                           children: [
                             const Text("Engage with your",
                                 style: TextStyle(
-                                  fontSize: 14,
                                   color: Colors.white,
                                   fontWeight: FontWeight.w700,
                                 )),
-                            const Padding(
-                              padding: EdgeInsets.only(top: 10.0),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 10.0),
                               child: Text(" COMMUNITY ",
                                   style: TextStyle(
+                                    // fontSize: screenHeight(context) * 0.04,
                                     fontSize: 36,
-                                    color: Color(0xffFE6A00),
+                                    color: const Color(0xffFE6A00),
                                     fontWeight: FontWeight.w700,
                                   )),
                             ),
@@ -183,8 +183,8 @@ class _CommunityScreenState extends State<CommunityScreen> {
                                       Navigator.push(context, MaterialPageRoute(builder: (context) =>const SearchingScreen()));
                                     },
                                     child: Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 15, horizontal: 25),
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: screenHeight(context) * 0.02, horizontal: screenWidth(context) * 0.06),
                                       decoration: const BoxDecoration(
                                         color: Color(0xffFE6900),
                                       ),
@@ -200,8 +200,8 @@ class _CommunityScreenState extends State<CommunityScreen> {
                                     ),
                                   ),
                                   Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 15, horizontal: 25),
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: screenHeight(context) * 0.02, horizontal: screenWidth(context) * 0.06),
                                     decoration: const BoxDecoration(
                                       color: Color(0xffFE6900),
                                     ),
@@ -226,10 +226,10 @@ class _CommunityScreenState extends State<CommunityScreen> {
                 ),
               ),
               Container(
-                  height: 60,
+                  height: screenHeight(context) * 0.06,
                   width: screenWidth(context),
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                      EdgeInsets.symmetric(horizontal: screenWidth(context) * 0.03, vertical: 5),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -242,8 +242,9 @@ class _CommunityScreenState extends State<CommunityScreen> {
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, item) {
                               return Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 5, vertical: 10),
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: screenWidth(context) * 0.03,
+                                    vertical: screenHeight(context) * 0.01),
                                 margin: const EdgeInsets.only(right: 5),
                                 decoration: BoxDecoration(
                                     color: const Color(0xffFE6A00),
@@ -253,7 +254,6 @@ class _CommunityScreenState extends State<CommunityScreen> {
                                     nameList[item],
                                     style: const TextStyle(
                                         color: Colors.white,
-                                        fontSize: 18,
                                         fontWeight: FontWeight.w600),
                                   ),
                                 ),
@@ -261,7 +261,7 @@ class _CommunityScreenState extends State<CommunityScreen> {
                             }),
                       ),
                       const CircleAvatar(
-                        radius: 18,
+                        // radius: 18,
                         backgroundColor: Color(0xffFE6A00),
                         backgroundImage: AssetImage(
                           "asset/Filter.png",

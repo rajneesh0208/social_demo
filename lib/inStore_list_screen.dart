@@ -126,7 +126,7 @@ class _InStoreListScreenState extends State<InStoreListScreen> {
                         margin: const EdgeInsets.only(top: 1),
                         padding: EdgeInsets.symmetric(
                             vertical: screenHeight(context) * 0.02,
-                            horizontal: screenWidth(context) * 0.05),
+                            horizontal: screenWidth(context) * 0.04),
                         decoration: const BoxDecoration(color: Colors.white),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -36,53 +36,13 @@ class _MeetConfirmationScreenState extends State<MeetConfirmationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      /*appBar: PreferredSize(
-        preferredSize: Size.fromHeight(screenHeight(context) * 0.6),
-        child: Stack(
-          clipBehavior: Clip.none,
-          children: [
-            Positioned(
-                left: screenWidth(context) * 0.2,
-                top: screenHeight(context) * 0.15,
-                child: SizedBox(
-                  width: screenWidth(context) * 0.6,
-                  child: const Text("REQUEST SENT SUCCESSFULLY",
-                      style: TextStyle(
-                        fontSize: 34,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w700,
-                      )),
-                )),
-            FutureBuilder(
-              future: _initializeVideoPlayerFuture,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  // If the VideoPlayerController has finished initialization, use
-                  // the data it provides to limit the aspect ratio of the video.
-                  return AspectRatio(
-                    aspectRatio: _controller.value.aspectRatio,
-                    // Use the VideoPlayer widget to display the video.
-                    child: VideoPlayer(_controller),
-                  );
-                } else {
-                  // If the VideoPlayerController is still initializing, show a
-                  // loading spinner.
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-              },
-            ),
-          ],
-        ),
-      ),*/
       body: SafeArea(
-        child: Container(
+        child: SizedBox(
           width: screenWidth(context),
           height: screenHeight(context),
           child: Column(
             children: [
-              Container(
+              SizedBox(
                 height: screenHeight(context) * 0.6,
                 width: screenWidth(context),
                 child: Stack(
@@ -106,7 +66,7 @@ class _MeetConfirmationScreenState extends State<MeetConfirmationScreen> {
                         if (snapshot.connectionState == ConnectionState.done) {
                           // If the VideoPlayerController has finished initialization, use
                           // the data it provides to limit the aspect ratio of the video.
-                          return Container(
+                          return SizedBox(
                             width: screenWidth(context),
                             child: AspectRatio(
                               aspectRatio: _controller.value.aspectRatio,
@@ -133,7 +93,7 @@ class _MeetConfirmationScreenState extends State<MeetConfirmationScreen> {
                   ),
                   child: Column(
                     children: [
-                      Padding(padding: EdgeInsets.only(top: screenHeight(context) *0.05),
+                      Padding(padding: EdgeInsets.only(top: screenHeight(context) *0.03),
                       child: const Text(
                           "Successfully accepted ",
                           style: TextStyle(
@@ -169,8 +129,8 @@ class _MeetConfirmationScreenState extends State<MeetConfirmationScreen> {
 
                           margin: const EdgeInsets.symmetric(
                               horizontal: 20),
-                          padding: const EdgeInsets
-                              .symmetric(vertical: 15),
+                          padding: EdgeInsets
+                              .symmetric(vertical: screenHeight(context) * 0.025 ),
                           decoration: const BoxDecoration(
                               color: Color(0xffffffff)
                           ),

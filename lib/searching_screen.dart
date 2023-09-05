@@ -90,184 +90,173 @@ class _SearchingScreenState extends State<SearchingScreen> with TickerProviderSt
         minimum: EdgeInsets.symmetric(horizontal: screenWidth(context) * 0.01),
         child: Container(
           margin: EdgeInsets.only(top: screenHeight(context) * 0.4),
-          child: Center(
-              child: Stack(
-                clipBehavior: Clip.none,
-                children: [
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: [
 
-                  Positioned(top: screenHeight(context) * 0.4,
-                      left: screenWidth(context) * 0.3 ,
-                      child: Container(
-                        child: Column(
-                          children: [
-                            Text(
-                                "Searching....",
-                                style: TextStyle(
-                                  fontSize: 27,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w700,
-                                )
-                            ),
-                            Padding(padding: EdgeInsets.only(top: 5),child: Text(
-                                "For SOCIAL-ites around you",
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Color(0xff351600),
-                                  fontWeight: FontWeight.w600,
-                                )
-                            ),)
-                          ],
-                        ),
-                      )),
-
-                  Positioned(
-                    // top: size.height * 0.005,
-                    left: -20,
-                    right: -20,
-                    child: Opacity(
-                      opacity: animation1.value,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            child: Image.asset(
-                              "asset/L4.png",
-                              width: 52.830238342285156,
-                              height: 179.97738647460938,
-                            ),
-                            // height: size.height * 0.25,
-                            // width: size.width * 0.03,
-                          ),
-                          Container(
-                            child: Image.asset(
-                              "asset/R4.png",
-                              width: 52.830238342285156,
-                              height: 179.97738647460938,
-                            ),
-                            // height: size.height * 0.25,
-                            // width: size.width * 0.03,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    top: screenHeight(context) * 0.02,
-                    left: screenWidth(context) * 0.1,
-                    right: screenWidth(context) * 0.1,
-                    child: Opacity(
-                      opacity: animation2.value,
-                      child: Row(
-                        children: [
-                          Container(
-                            child: Image.asset(
-                              "asset/L3.png",
-                              width: 39.8441276550293,
-                              height: 135.73745727539062,
-                            ),
-                            // height: size.width * 0.2,
-                            // width: size.width * 0.03,
-                          ),
-                          const Spacer(),
-                          Container(
-                            child: Image.asset(
-                              "asset/R3.png",
-                              width: 39.8441276550293,
-                              height: 135.73745727539062,
-                            ),
-                            // height: size.width * 0.2,
-                            // width: size.width * 0.03,
-                            // color: Colors.yellow,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    top: screenHeight(context) * 0.04,
-                    left: screenWidth(context) * 0.2,
-                    right: screenWidth(context) * 0.2,
-                    child: Opacity(
-                      opacity: animation3.value,
-                      child: Row(
-                        children: [
-                          Container(
-                            child: Image.asset(
-                              "asset/L2.png",
-                              width: 26.418439865112305,
-                              height: 90,
-                            ),
-                            // height: size.width * 0.15,
-                            // width: size.width * 0.03,
-                            // color: Colors.lightBlue,
-                          ),
-                          const Spacer(),
-                          Container(
-                            child: Image.asset(
-                              "asset/R2.png",
-                              width: 26.418439865112305,
-                              height: 90,
-                            ),
-                            // height: size.width * 0.15,
-                            // width: size.width * 0.03,
-                            // color: Colors.lightBlue,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    top: screenHeight(context) * 0.055,
-                    left: screenWidth(context) * 0.28,
-                    right: screenWidth(context) * 0.28,
-                    child: Opacity(
-                      opacity: animation4.value,
-                      child: Row(
-                        children: [
-                          Container(
-                            child: Image.asset(
-                              "asset/L1.png",
-                              width: 17.612293243408203,
-                              height: 60,
-                            ),
-
-                            // height: size.height * 0.1,
-                            // width: size.width * 0.03,
-                            // color: Colors.lightGreen,
-                          ),
-                          const Spacer(),
-                          Container(
-                            child: Image.asset(
-                              "asset/R1.png",
-                              width: 17.612293243408203,
-                              height: 60,
-                            ),
-                            // height: size.height * 0.1,
-                            // width: size.width * 0.03,
-                            // color: Colors.lightGreen,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    top: screenHeight(context) * 0.065,
-                    left: screenWidth(context) * 0.3,
-                    right: screenWidth(context) * 0.3,
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 20),
-                      child: const Text(
-                          "SOCIAL",
+              Positioned(top: screenHeight(context) * 0.4,
+                  left: screenWidth(context) * 0.3 ,
+                  child: const Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                          "Searching....",
                           style: TextStyle(
-                            fontSize: 30,
+                            fontSize: 27,
                             color: Colors.white,
                             fontWeight: FontWeight.w700,
                           )
                       ),
-                    ),
+                      Padding(padding: EdgeInsets.only(top: 5),child: Text(
+                          "For SOCIAL-ites around you",
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Color(0xff351600),
+                            fontWeight: FontWeight.w600,
+                          )
+                      ),)
+                    ],
+                  )),
+
+              Positioned(
+                top: -screenHeight(context) * 0.005,
+                left: -20,
+                right: -20,
+                child: Opacity(
+                  opacity: animation1.value,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        child: Image.asset(
+                          "asset/L4.png",
+                          width: 52.830238342285156,
+                          // height: 179.97738647460938,
+                        ),
+                        // height: size.height * 0.25,
+                        // width: size.width * 0.03,
+                      ),
+                      Container(
+                        child: Image.asset(
+                          "asset/R4.png",
+                          width: 52.830238342285156,
+                          // height: 179.97738647460938,
+                        ),
+                        // height: size.height * 0.25,
+                        // width: size.width * 0.03,
+                      ),
+                    ],
                   ),
-                ],
-              )
+                ),
+              ),
+              Positioned(
+                top: screenHeight(context) * 0.015,
+                left: screenWidth(context) * 0.1,
+                right: screenWidth(context) * 0.1,
+                child: Opacity(
+                  opacity: animation2.value,
+                  child: Row(
+                    children: [
+                      Container(
+                        child: Image.asset(
+                          "asset/L3.png",
+                          width: 39.8441276550293,
+                          // height: 135.73745727539062,
+                        ),
+
+                      ),
+                      const Spacer(),
+                      Container(
+                        child: Image.asset(
+                          "asset/R3.png",
+                          width: 39.8441276550293,
+                          // height: 135.73745727539062,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Positioned(
+                top: screenHeight(context) * 0.035,
+                left: screenWidth(context) * 0.2,
+                right: screenWidth(context) * 0.2,
+                child: Opacity(
+                  opacity: animation3.value,
+                  child: Row(
+                    children: [
+                      Container(
+                        child: Image.asset(
+                          "asset/L2.png",
+                          width: 26.418439865112305,
+                          // height: 90,
+                        ),
+                        // height: size.width * 0.15,
+                        // width: size.width * 0.03,
+                        // color: Colors.lightBlue,
+                      ),
+                      const Spacer(),
+                      Container(
+                        child: Image.asset(
+                          "asset/R2.png",
+                          width: 26.418439865112305,
+                          // height: 90,
+                        ),
+                        // height: size.width * 0.15,
+                        // width: size.width * 0.03,
+                        // color: Colors.lightBlue,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Positioned(
+                top: screenHeight(context) * 0.05,
+                left: screenWidth(context) * 0.28,
+                right: screenWidth(context) * 0.28,
+                child: Opacity(
+                  opacity: animation4.value,
+                  child: Row(
+                    children: [
+                      Container(
+                        child: Image.asset(
+                          "asset/L1.png",
+                          width: 17.612293243408203,
+                          // height: 60,
+                        ),
+                      ),
+                      const Spacer(),
+                      Container(
+                        child: Image.asset(
+                          "asset/R1.png",
+                          width: 17.612293243408203,
+                          // height: 60,
+                        ),
+                        // height: size.height * 0.1,
+                        // width: size.width * 0.03,
+                        // color: Colors.lightGreen,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Positioned(
+                top: screenHeight(context) * 0.065,
+                left: screenWidth(context) * 0.35,
+                // right: screenWidth(context) * 0.35,
+                child: Container(
+                  margin: EdgeInsets.symmetric(horizontal: screenWidth(context) *0.03),
+                  child: const Text(
+                      "SOCIAL",
+                      style: TextStyle(
+                        fontSize: 30,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w700,
+                      )
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),
